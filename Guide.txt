@@ -1,0 +1,210 @@
+Follow this guide 
+
+https://docs.google.com/document/d/e/2PACX-1vTgo6CuTHprL62aKnCV9XGoi1LSv8CZD6gBe_SdCPYf-YuQ6Fsaujhh7nNYyWxKdw2-8hjyIUOYdbdM/pub
+
+
+After starting the OS properly for the first time:
+sudo apt update
+
+
+sudo apt upgrade
+
+
+
+
+
+Guest Additions
+
+Guest Additions is a package from Virtual Box that adds some functionality to the Linux-Guest-OS (including Shared Folder).
+
+To install Guest Additions:
+
+Install build-essential (Package that include everything necessary for C and C++ code (including compiler))
+apt install build-essential
+
+
+
+Install Kernel Header Files. NOTE: Those usually come already installed on Ubuntu.
+
+To check if they’re already installed: 
+apt search linux-headers-$(uname -r)	
+
+
+Output should look something like this: 
+rootuser@root-VirtualBox:~$ apt search linux-headers-$(uname -r)
+Sorting... Done
+Full Text Search... Done
+linux-headers-5.11.0-43-generic/focal-updates,focal-security,now 5.11.0-43.47~20.04.2 amd64 [installed]
+  Linux kernel headers for version 5.11.0 on 64 bit x86 SMP
+
+	
+
+To install Kernel Header Files (if they’re not already installed):
+apt install linux-headers-$(uname -r)
+
+
+
+
+After both are installed, click on “Devices” in a running VM
+
+
+Click on “Insert Guest Additions Cd image…”
+[1]
+
+Ubuntu will usually ask you that the image contains executable code and whether you want to run it.
+
+Say “yes” and Guest additions will automatically be installed.
+
+If this prompt doesn’t show up, or you click away, simply open the directory of the mounted disk in  the terminal and run:
+sudo sh VBoxLinuxAdditions.run
+
+
+Restart the computer/VM.
+
+Guest Additions is now installed.
+
+Bidirectional Clipboard, Drag n Drop and Shared Folders can now be turned on and used in the Devices Tab of the VM Window (see figure [1]).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Shared Folder.
+
+Guest Additions must be installed for this.
+Click on the Devices Tab of the VM Window, 
+
+
+Click on Shared Folder and open the Settings.
+In the newly opened window simply add a folder ()[2]
+Folder Path: 	The Path of the Folder to be shared on the HOST Machine
+Folder Name: 	Simply the Folder Name
+Auto-mount: 	ON
+Mount point: 	Name of the Shared Folder/Mount Point on the GUEST Machine
+
+[3]
+
+After this the shared folder will automatically be mounted on the GUEST Machine.
+
+HOWEVER: Using Auto-mount will restrict access to the Shared Folder on the GUEST Machine to users of the groups “root” and “vboxsf”.
+To get access to the Shared Folder, simply add the current user of the Machine to the group “vboxsf”
+
+To figure out what user you are simply use 
+who
+
+
+Result:
+rootuser :0           2021-12-18 17:42 (:0)
+
+
+
+To add the user to the vboxsf group:
+sudo usermod -a -G vboxsf rootuser
+
+
+Restart Machine for changes to take effect.
+
+To View Users Groups:
+id rootuser
+
+
+Result: 
+uid=1000(rootuser) gid=1000(rootuser) groups=1000(rootuser),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),120(lpadmin),132(lxd),133(sambashare),998(vboxsf)
+
+
+
+The Shared Folder can now be accessed in the VM.
+
+
+Setup the rest of the system:
+Run the following code as a bash script:
+
+#!/bin/sh
+apt update
+
+#C/C++ STUFF
+apt install build-essential -y
+
+#PYTHON STUFF
+apt install python3 -y
+apt install python3-pip -y
+
+#NODE STUFF
+#install npm
+apt install npm -y 
+
+#upgrade node to the last stable version
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+
+
+#VISUAL CODE
+apt install software-properties-common apt-transport-https wget -y
+
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+apt update
+apt install code -y
+
+
+#This part doesn't work for some reason. Doesn't produce any errors though so I'll keep it in.
+
+#VISUAL CODE EXTENSIONS 
+code --install-extension ms-python.python
+code --install-extension ms-vscode.cpptools
+code --install-extension ms-dotnettools.csharp
+
+
+
+
+
+#etc.
+
+
+
+
+To run stuff as a bash script create a new file. Paste the above code. Open the directory in the terminal. Run chmod +x FILENAME . Run sudo ./FILENAME . 
+
+C# compiler:
+To install a C# compiler you need to install the .NET SDK for Ubuntu. To do so, follow these instructions: https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu#2004
+
+
+In short:
+(IMPORTANT: The actual code depends on the Ubuntu version. This is for Ubuntu 20.04)
+Run the following lines of code in the terminal line by line
+wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+
+sudo dpkg -i packages-microsoft-prod.deb
+
+rm packages-microsoft-prod.deb
+
+sudo apt-get update
+sudo apt-get install -y apt-transport-https 
+sudo apt-get update 
+sudo apt-get install -y dotnet-sdk-6.0
+
+
+Note: The C# Addon for Visual Code can run into problems if it is installed before the .Net SDK. If this occurs, simply uninstall the VSCode Addon for C# and reinstall it.
+
+To create a new project: Create a new folder. In this folder open the terminal and run dotnet net console . Now simply run it with dotnet run OR in Visual Code.
+
+COMPLEMENTARY SOFTWARE:
+
+nethogs - NetLimiter knockoff for terminal. Show what processes create what amount of network traffic
+
+Img2pdf - converts multiple images to one pdf file. (No simple free solution for this exists on windows.  They’re all wither payed or some online converter where you have to upload the file (big nono))
