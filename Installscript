@@ -46,42 +46,64 @@ SetupFirewallAllowSsh(){
   ufw allow ssh
 }
 
-main(){
-  yes | sudo apt update
-  yes | sudo apt upgrade
-  
+
+docker=Y
+node=Y
+nettools=Y
+firewall=Y
+vscode=Y
+guestAdditions=Y
+
+read -p "Install Docker? [Y/n] " -n 1 -r docker
+echo
+read -p "Install Node? [Y/n] " -n 1 -r node
+echo
+read -p "Install net-tools? [Y/n] " -n 1 -r nettools
+echo
+read -p "Setup Firewall (allow 22)? [Y/n] " -n 1 -r firewall
+echo
+read -p "Install VSCode? [Y/n] " -n 1 -r vscode
+echo
+read -p "Install Guest Additions? (Insert Guest Additions first) [Y/n] " -n 1 -r guestAdditions
+echo
+
+yes | sudo apt update
+yes | sudo apt upgrade
+
+if ! [[ "$docker" =~ [Nn]$ ]]; 
+then
   yes | InstallDocker
-  
+fi
+
+if ! [[ "$node" =~ [Nn]$ ]]; 
+then
   yes | InstallNode
-  
+fi
+
+if ! [[ "$nettools" =~ [Nn]$ ]]; 
+then
   yes | InstallIfconfig
-  
+fi
+
+if ! [[ "$firewall" =~ [Nn]$ ]]; 
+then
   yes | SetupFirewallAllowSsh
+fi
 
+if ! [[ "$vscode" =~ [Nn]$ ]]; 
+then
   yes | InstallVsCode
+fi
 
-  InstallGuestAdditions # not using "yes" becuase that breaks it.
-}
+if ! [[ "$guestAdditions" =~ [Nn]$ ]]; 
+then
+  InstallGuestAdditions # not using "yes" because that breaks it.
+fi
 
 
-main
-
-
-
-tput rmam # this turns line wrapping off to display the text pretty
 echo "
-██████  ██     ██ ███████  █████  ███████ ███████         ██     ██ ███████ ██████   ██████   ██████  ████████         
-██   ██ ██     ██ ██      ██   ██ ██      ██              ██     ██ ██      ██   ██ ██    ██ ██    ██    ██            
-██████  ██  █  ██ █████   ███████ ███████ █████           ██  █  ██ █████   ██████  ██    ██ ██    ██    ██            
-██      ██ ███ ██ ██      ██   ██      ██ ██              ██ ███ ██ ██      ██   ██ ██    ██ ██    ██    ██            
-██       ███ ███  ███████ ██   ██ ███████ ███████          ███ ███  ███████ ██████   ██████   ██████     ██            
-                                                                                                                       
-                                                                                                                       
-███    ██ ██    ██  ██████  ██     ██                                                                                  
-████   ██  ██  ██  ██    ██ ██     ██                                                                                  
-██ ██  ██   ████   ██    ██ ██  █  ██                                                                                  
-██  ██ ██    ██    ██    ██ ██ ███ ██                                                                                  
-██   ████    ██     ██████   ███ ███                                                                                                                                                                                                                                                                                                                                                                                                   
+Pwease westawt the system nyow                (づ ◕‿◕ )づ
+It is vewy impowtant that you do that         ＼(º □ º l|l)/
+i-it m-makes my head *cries* huwt othewwise   ~(>_<~)	                                                                                                                                                                                                                                                                                                                                                                                          
 "
-tput smam # this turns line wrapping back on
 
