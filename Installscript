@@ -1,5 +1,4 @@
-yes | main
-echo "Pwease weboot the system nyow."
+#!/usr/bin/env bash
 
 main(){
   sudo apt update
@@ -41,3 +40,6 @@ main(){
   sudo sh VBoxLinuxAdditions.run
 }
 
+
+yes | main
+echo "Pwease weboot the system nyow."
