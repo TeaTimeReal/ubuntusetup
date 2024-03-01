@@ -7,3 +7,5 @@
 4. Enable firewall and allow 22/ssh (Uses ufw doesn't install it, however)
 5. **VSCode** (Uses snap doesn't install it however)
 6. **Oracle Virtual Box Guest Additions** - Nice to have if running in a VM using VirtualBox. Guest additions need to be inserted beforehand via ISO.
+
+*NOTE: Mainly meant for Ubuntu 22 Desktop. Not guaranteed to work on anything else.*
