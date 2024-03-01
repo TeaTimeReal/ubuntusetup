@@ -27,7 +27,7 @@ InstallGuestAdditions(){
   apt install build-essential
   
   cd /media/rootuser/VBox_GAs_*
-  x-terminal-emulator -e ./VBoxLinuxAdditions.run
+  ./VBoxLinuxAdditions.run
 }
 
 InstallVsCode(){
@@ -47,23 +47,25 @@ SetupFirewallAllowSsh(){
 }
 
 main(){
-  sudo apt update
-  sudo apt upgrade
+  yes | sudo apt update
+  yes | sudo apt upgrade
   
-  InstallDocker
+  yes | InstallDocker
   
-  InstallNode
+  yes | InstallNode
   
-  InstallIfconfig
+  yes | InstallIfconfig
   
-  SetupFirewallAllowSsh
+  yes | SetupFirewallAllowSsh
 
-  InstallVsCode
+  yes | InstallVsCode
+
+  InstallGuestAdditions
 }
 
 
-yes | main
-InstallGuestAdditions
+main
+
 
 
 tput rmam # this turns line wrapping off to display the text pretty
