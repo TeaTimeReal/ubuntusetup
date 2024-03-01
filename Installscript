@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-docker(){
+InstallDocker(){
   # Install docker
   sudo apt install apt-transport-https ca-certificates curl software-properties-common
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -15,7 +15,7 @@ docker(){
   su - ${USER}
 }
 
-node(){
+InstallNode(){
   # Install Node v18.17.1 and npm
   apt install nodejs
   apt install npm
@@ -23,29 +23,45 @@ node(){
   n 18.17.1
 }
 
-main(){
-  sudo apt update
-  sudo apt upgrade
-  
-  nohup x-terminal.emulator -e docker
-  
-  nohup x-terminal.emulator -e node
-  
-  # Install ifconfig
-  apt install net-tools
-  
-  # Enable and set firewall to allow ssh
-  ufw enable
-  ufw allow ssh
-  
-  # Install Visual Code
-  sudo snap install --classic code # or code-insiders
-  
+InstallGuestAdditions(){
   # Virtual Box Guest Additions - to copy/paste and use shared folder between host and guest.
   apt install build-essential
   
   cd /media/rootuser/VBox_GAs_*
   sudo sh VBoxLinuxAdditions.run
+}
+
+InstallVsCode(){
+  # Install Visual Code
+  sudo snap install --classic code # or code-insiders
+}
+
+InstallIfconfig(){
+  # Install ifconfig
+  apt install net-tools
+}
+
+SetupFirewallAllowSsh(){
+  # Enable and set firewall to allow ssh
+  ufw enable
+  ufw allow ssh
+}
+
+main(){
+  sudo apt update
+  sudo apt upgrade
+  
+  InstallDocker
+  
+  InstallNode
+  
+  InstallIfconfig
+  
+  SetupFirewallAllowSsh
+
+  InstallVsCode
+  
+  InstallGuestAdditions
 }
 
 
