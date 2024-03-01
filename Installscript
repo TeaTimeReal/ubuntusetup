@@ -1,7 +1,7 @@
-yes | main()
+yes | main
 echo "Pwease weboot the system nyow."
 
-function main(){
+main(){
   sudo apt update
   sudo apt upgrade -y
   
