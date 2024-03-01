@@ -1,0 +1,36 @@
+sudo apt update
+sudo apt upgrade -y
+
+# Install docker
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/>
+sudo apt update
+apt-cache policy docker-ce
+sudo apt install docker-ce
+sudo systemctl status docker
+
+sudo usermod -aG docker ${USER}
+su - ${USER}
+
+# Install Node v18.17.1 and npm
+apt install nodejs
+apt install npm
+npm install -g n
+n 18.17.1
+
+# Install Visual Code
+sudo usermod -aG docker username
+
+# Virtual Box Guest Additions - to copy/paste and use shared folder between host and guest.
+apt install build-essential -y
+
+cd /media/rootuser/VBox_GAs_*
+sudo sh VBoxLinuxAdditions.run
+
+# Install ifconfig
+apt install net-tools
+
+# Enable and set firewall
+ufw enable
+ufw allow ssh
