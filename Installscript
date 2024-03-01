@@ -12,7 +12,6 @@ InstallDocker(){
   
   # Run docker without sudo. Trust me, you want this.
   sudo usermod -aG docker ${USER}
-  su - ${USER}
 }
 
 InstallNode(){
