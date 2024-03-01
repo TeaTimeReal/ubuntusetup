@@ -60,7 +60,7 @@ main(){
 
   yes | InstallVsCode
 
-  InstallGuestAdditions
+  InstallGuestAdditions # not using "yes" becuase that breaks it.
 }
 
 
