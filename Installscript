@@ -2,7 +2,7 @@
 
 main(){
   sudo apt update
-  sudo apt upgrade -y
+  sudo apt upgrade
   
   # Install docker
   sudo apt install apt-transport-https ca-certificates curl software-properties-common
@@ -11,20 +11,20 @@ main(){
   
   sudo apt update
   apt-cache policy docker-ce
-  sudo apt install docker-ce -y
+  sudo apt install docker-ce
   
   # Run docker without sudo. Trust me, you want this.
   sudo usermod -aG docker ${USER}
   su - ${USER}
   
   # Install Node v18.17.1 and npm
-  apt install nodejs -y
-  apt install npm -y
+  apt install nodejs
+  apt install npm
   npm install -g n 
   n 18.17.1
   
   # Install ifconfig
-  apt install net-tools -y
+  apt install net-tools
   
   # Enable and set firewall to allow ssh
   ufw enable
@@ -34,7 +34,7 @@ main(){
   sudo snap install --classic code # or code-insiders
   
   # Virtual Box Guest Additions - to copy/paste and use shared folder between host and guest.
-  apt install build-essential -y
+  apt install build-essential
   
   cd /media/rootuser/VBox_GAs_*
   sudo sh VBoxLinuxAdditions.run
