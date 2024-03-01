@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-main(){
-  sudo apt update
-  sudo apt upgrade
-  
+docker(){
   # Install docker
   sudo apt install apt-transport-https ca-certificates curl software-properties-common
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -16,12 +13,23 @@ main(){
   # Run docker without sudo. Trust me, you want this.
   sudo usermod -aG docker ${USER}
   su - ${USER}
-  
+}
+
+node(){
   # Install Node v18.17.1 and npm
   apt install nodejs
   apt install npm
   npm install -g n 
   n 18.17.1
+}
+
+main(){
+  sudo apt update
+  sudo apt upgrade
+  
+  nohup x-terminal.emulator -e docker
+  
+  nohup x-terminal.emulator -e node
   
   # Install ifconfig
   apt install net-tools
