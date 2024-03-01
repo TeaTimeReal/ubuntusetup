@@ -26,7 +26,8 @@ InstallGuestAdditions(){
   # Virtual Box Guest Additions - to copy/paste and use shared folder between host and guest.
   apt install build-essential
   
-  sudo apt-get install virtualbox-guest-additions-iso
+  cd /media/rootuser/VBox_GAs_*
+  ./VBoxLinuxAdditions.run
 }
 
 InstallVsCode(){
