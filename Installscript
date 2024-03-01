@@ -27,7 +27,7 @@ InstallGuestAdditions(){
   apt install build-essential
   
   cd /media/rootuser/VBox_GAs_*
-  ./VBoxLinuxAdditions.run
+  x-terminal-emulator -e ./VBoxLinuxAdditions.run
 }
 
 InstallVsCode(){
@@ -59,12 +59,11 @@ main(){
   SetupFirewallAllowSsh
 
   InstallVsCode
-  
-  InstallGuestAdditions
 }
 
 
 yes | main
+InstallGuestAdditions
 
 
 tput rmam # this turns line wrapping off to display the text pretty
