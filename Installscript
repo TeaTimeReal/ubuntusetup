@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+gitUsername
+gitPat
+
 
 InstallDocker(){
   # Install docker
@@ -46,6 +49,16 @@ SetupFirewallAllowSsh(){
   ufw allow ssh
 }
 
+SetGitCredentials(){
+  touch /git_creds.sh
+  git config --global credential.helper "/bin/bash /git_creds.sh"
+  echo"
+    #!/bin/bash
+    sleep 1
+    echo username=$gitUsername
+    echo password="$gitPat"
+  " >> /git_creds.sh
+}
 
 docker=Y
 node=Y
@@ -53,6 +66,8 @@ nettools=Y
 firewall=Y
 vscode=Y
 guestAdditions=Y
+gitCredentials=Y
+
 
 read -p "Install Docker? [Y/n] " -n 1 -r docker
 echo
@@ -66,6 +81,13 @@ read -p "Install VSCode? [Y/n] " -n 1 -r vscode
 echo
 read -p "Install Guest Additions? (Insert Guest Additions first) [Y/n] " -n 1 -r guestAdditions
 echo
+read -p "Permanently store git credentials[Y/n] " -n 1 -r gitCredentials
+echo
+if ! [[ "$gitCredentials" =~ [Nn]$ ]]; 
+then
+  read -p "Username " -r gitUsername
+  read -p "Personal Access Token " -r gitPat
+fi
 
 yes | sudo apt update
 yes | sudo apt upgrade
@@ -98,6 +120,11 @@ fi
 if ! [[ "$guestAdditions" =~ [Nn]$ ]]; 
 then
   InstallGuestAdditions # not using "yes" because that breaks it.
+fi
+
+if ! [[ "$gitCredentials" =~ [Nn]$ ]]; 
+then
+  SetGitCredentials
 fi
 
 
