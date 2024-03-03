@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-gitUsername
-gitPat
+
 
 
 InstallDocker(){
@@ -51,13 +50,13 @@ SetupFirewallAllowSsh(){
 
 SetGitCredentials(){
   touch /git_creds.sh
+  chmod +x /git_creds.sh
   git config --global credential.helper "/bin/bash /git_creds.sh"
-  echo"
-    #!/bin/bash
-    sleep 1
-    echo username=$gitUsername
-    echo password="$gitPat"
-  " >> /git_creds.sh
+  
+  echo "#!/bin/bash" >> /git_creds.sh
+  echo "sleep 1" >> /git_creds.sh
+  echo "echo username=$gitUsername" >> /git_creds.sh
+  echo "echo password=$gitPat" >> /git_creds.sh
 }
 
 docker=Y
@@ -81,16 +80,18 @@ read -p "Install VSCode? [Y/n] " -n 1 -r vscode
 echo
 read -p "Install Guest Additions? (Insert Guest Additions first) [Y/n] " -n 1 -r guestAdditions
 echo
-read -p "Permanently store git credentials[Y/n] " -n 1 -r gitCredentials
+read -p "Permanently store git credentials? [Y/n] " -n 1 -r gitCredentials
 echo
 if ! [[ "$gitCredentials" =~ [Nn]$ ]]; 
 then
   read -p "Username " -r gitUsername
   read -p "Personal Access Token " -r gitPat
+  clear
 fi
 
-yes | sudo apt update
-yes | sudo apt upgrade
+
+#yes | sudo apt update
+#yes | sudo apt upgrade
 
 if ! [[ "$docker" =~ [Nn]$ ]]; 
 then
