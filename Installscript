@@ -13,7 +13,9 @@ InstallDocker(){
   sudo apt install docker-ce
   
   # Run docker without sudo. Trust me, you want this.
-  sudo usermod -aG docker ${USER}
+  sudo groupadd docker
+  sudo usermod -aG docker $USER
+  newgrp docker
 }
 
 InstallNode(){
@@ -48,16 +50,7 @@ SetupFirewallAllowSsh(){
   ufw allow ssh
 }
 
-SetGitCredentials(){
-  touch /git_creds.sh
-  chmod +x /git_creds.sh
-  git config --global credential.helper "/bin/bash /git_creds.sh"
-  
-  echo "#!/bin/bash" >> /git_creds.sh
-  echo "sleep 1" >> /git_creds.sh
-  echo "echo username=$gitUsername" >> /git_creds.sh
-  echo "echo password=$gitPat" >> /git_creds.sh
-}
+
 
 docker=Y
 node=Y
